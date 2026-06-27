@@ -72,6 +72,8 @@ func getRHELAICreate() *cobra.Command {
 					HFToken:          viper.GetString(params.RhelAIHFToken),
 					APIKey:           viper.GetString(params.RhelAIAPIKey),
 					AutoStart:        viper.IsSet(params.RhelAIAutoStart),
+					ToolCallParser:   viper.GetString(params.RhelAIToolCallParser),
+					ChatTemplate:     viper.GetString(params.RhelAIChatTemplate),
 					ExposePorts:      viper.GetIntSlice(params.RhelAIExposePorts),
 				})
 		},
@@ -87,6 +89,8 @@ func getRHELAICreate() *cobra.Command {
 	flagSet.StringP(params.RhelAIAPIKey, "", "", params.RhelAIAPIKeyDesc)
 	flagSet.Bool(params.RhelAIAutoStart, false, params.RhelAIAutoStartDesc)
 	flagSet.IntSlice(params.RhelAIExposePorts, nil, params.RhelAIExposePortsDesc)
+	flagSet.StringP(params.RhelAIToolCallParser, "", "", params.RhelAIToolCallParserDesc)
+	flagSet.StringP(params.RhelAIChatTemplate, "", "", params.RhelAIChatTemplateDesc)
 	flagSet.StringP(params.Timeout, "", "", params.TimeoutDesc)
 	params.AddComputeRequestFlags(flagSet)
 	params.AddSpotFlags(flagSet)

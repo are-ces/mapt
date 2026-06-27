@@ -155,6 +155,12 @@ spec:
     - name: expose-ports
       description: Comma-separated list of ports to expose through the load balancer and security group (e.g. 8000,8080).
       default: ""
+    - name: tool-call-parser
+      description: Enable tool calling with the specified parser (e.g. llama3_json, hermes, mistral). Automatically adds --enable-auto-tool-choice.
+      default: ""
+    - name: chat-template
+      description: Path to chat template jinja file inside the RHAIIS container (e.g. /opt/app-root/template/tool_chat_template_llama3.2_json.jinja).
+      default: ""
 
     # Network params
     - name: service-endpoints
@@ -316,6 +322,12 @@ spec:
           fi
           if [[ "$(params.expose-ports)" != "" ]]; then
             cmd+="--expose-ports '$(params.expose-ports)' "
+          fi
+          if [[ "$(params.tool-call-parser)" != "" ]]; then
+            cmd+="--tool-call-parser '$(params.tool-call-parser)' "
+          fi
+          if [[ "$(params.chat-template)" != "" ]]; then
+            cmd+="--chat-template '$(params.chat-template)' "
           fi
           cmd+="--tags '$(params.tags)' "
         fi

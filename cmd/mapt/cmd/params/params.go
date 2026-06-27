@@ -131,6 +131,10 @@ const (
 	RhelAIAutoStartDesc       string = "automatically configure and start RHAIIS after provisioning"
 	RhelAIExposePorts         string = "expose-ports"
 	RhelAIExposePortsDesc     string = "comma-separated list of ports to expose through the load balancer and security group (e.g. 8000,8080)"
+	RhelAIToolCallParser      string = "tool-call-parser"
+	RhelAIToolCallParserDesc  string = "enable tool calling with the specified parser (e.g. llama3_json, hermes, mistral)"
+	RhelAIChatTemplate        string = "chat-template"
+	RhelAIChatTemplateDesc    string = "path to chat template jinja file inside the RHAIIS container (e.g. /opt/app-root/template/tool_chat_template_llama3.2_json.jinja)"
 
 	// Serverless
 	Timeout        string = "timeout"

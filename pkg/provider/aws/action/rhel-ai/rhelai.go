@@ -46,6 +46,8 @@ type rhelAIRequest struct {
 	hfToken          *string
 	apiKey           *string
 	autoStart        bool
+	toolCallParser   *string
+	chatTemplate     *string
 	exposePorts      []int
 }
 
@@ -85,6 +87,8 @@ func Create(mCtxArgs *mc.ContextArgs, args *apiRHELAI.RHELAIArgs) (err error) {
 		hfToken:          &args.HFToken,
 		apiKey:           &args.APIKey,
 		autoStart:        args.AutoStart,
+		toolCallParser:   &args.ToolCallParser,
+		chatTemplate:     &args.ChatTemplate,
 		exposePorts:      args.ExposePorts}
 	if args.Spot != nil {
 		r.spot = args.Spot.Spot
@@ -372,6 +376,15 @@ func (r *rhelAIRequest) rhaiisSetupScript() string {
 		script += fmt.Sprintf(
 			` && sudo sed -i 's|--model .*|--model %s \\|' %s/install.conf`,
 			*r.model, confDir)
+	}
+	if len(*r.toolCallParser) > 0 {
+		toolArgs := fmt.Sprintf(`--enable-auto-tool-choice \\\n     --tool-call-parser %s`, *r.toolCallParser)
+		if len(*r.chatTemplate) > 0 {
+			toolArgs += fmt.Sprintf(` \\\n     --chat-template %s`, *r.chatTemplate)
+		}
+		script += fmt.Sprintf(
+			` && sudo sed -i 's|--max-model-len.*|--max-model-len 4096 \\\n     %s|' %s/install.conf`,
+			toolArgs, confDir)
 	}
 	if len(*r.apiKey) > 0 {
 		script += fmt.Sprintf(
